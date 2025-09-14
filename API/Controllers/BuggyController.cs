@@ -20,7 +20,7 @@ namespace API.Controllers
             return "secret text";
         }
 
-        [Authorize]
+    
         [HttpGet("not-found")]
         public ActionResult<AppUser> GetNotFound()
         {
