@@ -17,6 +17,7 @@ bsConfig: Partial<BsDatepickerConfig>
     this.bsConfig={
       containerClass: 'theme-red',
       dateInputFormat: 'DD MMMM YYYY'
+    
     }
    }
 
