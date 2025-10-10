@@ -31,9 +31,16 @@ loadMessages(){
   })
 }
 
+deleteMessage(id:number){
+  this.messageService.deleteMessage(id).subscribe(()=>{
+    console.log('after http delete subscribe');
+    this.messages.splice(this.messages.findIndex(m=>m.id ===id),1);
+  })
+}
+
 pageChanged(event:any)
 {
-  if(this.pageNumber != event.page)
+  if(this.pageNumber !== event.page)
   {
     this.pageNumber = event.page;
     this.loadMessages();
