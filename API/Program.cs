@@ -28,6 +28,7 @@ builder.Services.AddScoped<LogUserActivity>();
 builder.Services.AddScoped<ILikesRepository, LikesRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddSignalR();
 builder.Services.AddAuthorization(opt =>
 {
     opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
@@ -54,6 +55,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = false,
         ValidateAudience = false,
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
 });
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
@@ -79,11 +97,12 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
-app.MapControllers();
-app.MapHub<PresenceHub>("hubs/presence");
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200"));
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
+app.MapHub<PresenceHub>("hubs/presence");
+
 
 
 app.Run();
