@@ -28,6 +28,7 @@ builder.Services.AddScoped<LogUserActivity>();
 builder.Services.AddScoped<ILikesRepository, LikesRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddSingleton<PresenceTracker>();
 builder.Services.AddSignalR();
 builder.Services.AddAuthorization(opt =>
 {
