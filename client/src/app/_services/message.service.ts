@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { Message } from '../_models/message';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../_models/user';
 import { BehaviorSubject } from 'rxjs';
 
@@ -23,6 +23,7 @@ export class MessageService {
 
   createHubConnection(user:User, otherUsername: string)
   {
+    console.log(this.hubUrl + 'message?user=' + otherUsername);
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(this.hubUrl + 'message?user=' + otherUsername,{
       accessTokenFactory: ()=> user.token
@@ -38,7 +39,9 @@ export class MessageService {
   }
 
   stopHubConnection(){
-    this.hubConnection.stop();
+    if(this.hubConnection){
+      this.hubConnection.stop();
+    }
   }
 
   getMessages(pageNumber,pageSize,container){

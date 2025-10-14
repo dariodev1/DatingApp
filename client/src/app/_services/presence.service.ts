@@ -17,7 +17,7 @@ onlineUsers$ = this.onlineUsersSource.asObservable();
   constructor(private toastr: ToastrService) { }
 
   createHubConnection(user:User){
-    console.log(this.hubUrl+ 'presence');
+    
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(this.hubUrl+ 'presence',{
       accessTokenFactory: () => user.token
