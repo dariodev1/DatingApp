@@ -26,7 +26,7 @@ namespace API.Data
 
         public void AddGroup(Group group)
         {
-            throw new NotImplementedException();
+            _context.Groups.Add(group);
         }
 
         public void AddMessage(Message message)
