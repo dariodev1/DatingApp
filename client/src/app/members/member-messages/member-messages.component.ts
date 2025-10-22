@@ -20,8 +20,7 @@ messageContent: string;
   }
 
 sendMessage(){
-  this.messageService.sendMessage(this.username, this.messageContent).subscribe(message=>{
-    this.messages.push(message);
+  this.messageService.sendMessage(this.username, this.messageContent).then(message=>{
     this.messageForm.reset();
   })
 }

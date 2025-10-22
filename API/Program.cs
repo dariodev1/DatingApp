@@ -103,7 +103,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
-app.MapHub<PresenceHub>("hubs/message");
+app.MapHub<MessageHub>("hubs/message");
 
 
 

@@ -40,7 +40,10 @@ namespace API.SignalR
         {
             await base.OnDisconnectedAsync(exception);
         }
-
+        public async Task Test(string message)
+        {
+            
+        }
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
             var username = Context.User.GetUserName();
